@@ -1,1 +1,1124 @@
-
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Abinayak03/PYTHON/blob/main/REGEX\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "oealDSVw7E4S"
+      },
+      "source": [
+        "<h1 align='center'>Python Regular Expression</h1>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "https://regex101.com/"
+      ],
+      "metadata": {
+        "id": "iWM2XFEjCMlI"
+      }
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 33,
+      "metadata": {
+        "id": "BS7wG_NY7E4U"
+      },
+      "outputs": [],
+      "source": [
+        "import re"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "QK0Fyy9R7E4V"
+      },
+      "source": [
+        "**1. Extract all twitter handles from following text. Twitter handle is the text that appears after https://twitter.com/ and is a single word. Also it contains only alpha numeric characters i.e. A-Z a-z , o to 9 and underscore _**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 34,
+      "metadata": {
+        "scrolled": true,
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "UAWDhidn7E4W",
+        "outputId": "4c2258b8-1379-4c78-8526-2ecdc34a5118"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['elonmusk', 'teslarati', 'dummy_tesla', 'dummy_2_tesla']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 34
+        }
+      ],
+      "source": [
+        "text = '''\n",
+        "Follow our leader Elon musk on twitter here: https://twitter.com/elonmusk, more information\n",
+        "on Tesla's products can be found at https://www.tesla.com/. Also here are leading influencers\n",
+        "for tesla related news,\n",
+        "https://twitter.com/teslarati\n",
+        "https://twitter.com/dummy_tesla\n",
+        "https://twitter.com/dummy_2_tesla\n",
+        "'''\n",
+        "pattern = 'https:\\/\\/twitter.com\\/([a-zA-Z_[0-9]+)'\n",
+        "\n",
+        "re.findall(pattern, text)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "tbqvOCpB7E4X"
+      },
+      "source": [
+        "**2. Extract Concentration Risk Types. It will be a text that appears after \"Concentration Risk:\", In below example, your regex should extract these two strings**\n",
+        "\n",
+        "(1) Credit Risk\n",
+        "\n",
+        "(2) Supply Rish"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 35,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "EW4wxOGo7E4X",
+        "outputId": "382c48b0-8727-40a2-c435-f4537be85fd9"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Credit Risk', 'Supply Risk']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 35
+        }
+      ],
+      "source": [
+        "text = '''\n",
+        "Concentration of Risk: Credit Risk\n",
+        "Financial instruments that potentially subject us to a concentration of credit risk consist of cash, cash equivalents, marketable securities,\n",
+        "restricted cash, accounts receivable, convertible note hedges, and interest rate swaps. Our cash balances are primarily invested in money market funds\n",
+        "or on deposit at high credit quality financial institutions in the U.S. These deposits are typically in excess of insured limits. As of September 30, 2021\n",
+        "and December 31, 2020, no entity represented 10% or more of our total accounts receivable balance. The risk of concentration for our convertible note\n",
+        "hedges and interest rate swaps is mitigated by transacting with several highly-rated multinational banks.\n",
+        "Concentration of Risk: Supply Risk\n",
+        "We are dependent on our suppliers, including single source suppliers, and the inability of these suppliers to deliver necessary components of our\n",
+        "products in a timely manner at prices, quality levels and volumes acceptable to us, or our inability to efficiently manage these components from these\n",
+        "suppliers, could have a material adverse effect on our business, prospects, financial condition and operating results.\n",
+        "'''\n",
+        "pattern = 'Concentration of Risk: ([^\\n]*)'\n",
+        "\n",
+        "re.findall(pattern, text)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "soN2EC017E4Y"
+      },
+      "source": [
+        "**3. Companies in europe reports their financial numbers of semi annual basis and you can have a document like this. To exatract quarterly and semin annual period you can use a regex as shown below**"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 36,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "_jiVLB867E4Y",
+        "outputId": "2bcea167-e7be-4115-b108-c591be5bd78a"
+      },
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<re.Match object; span=(51, 60), match='FY2021 Q1'>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 36
+        }
+      ],
+      "source": [
+        "text = '''\n",
+        "Tesla's gross cost of operating lease vehicles in FY2021 Q1 was $4.85 billion.\n",
+        "BMW's gross cost of operating vehicles in FY2021 S1 was $8 billion.\n",
+        "'''\n",
+        "\n",
+        "pattern = 'FY(\\d{4} (?:Q[1-4]|S[1-2]))'\n",
+        "matches = re.search(pattern, text)\n",
+        "matches"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "1.\tExtract all numbers from the string: \"My phone number is 9876543210 and my ID is 4567\"."
+      ],
+      "metadata": {
+        "id": "pktoiAMeF9ze"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text=\"My phone number is 9876543210 and my ID is 4567\"\n",
+        "pattern = '\\d+'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ix4oCrLmF9Vd",
+        "outputId": "8a70ed45-d2bc-4670-a2e5-1b805f24b866"
+      },
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['9876543210', '4567']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 37
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text=\"Please contact john.doe@example.com, priya_kumar123@mail.in, support@company, alice@@edu.org, user.name@domain.com, and test_email@xyz.net for further assistance.\"\n",
+        "pattern = '[\\w\\.-]+@[a-z]+\\.[a-z]{2,}'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "PC0Al5W8It7U",
+        "outputId": "c11ae20d-c2bc-4a1e-950f-26375985728f"
+      },
+      "execution_count": 38,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['john.doe@example.com',\n",
+              " 'priya_kumar123@mail.in',\n",
+              " 'user.name@domain.com',\n",
+              " 'test_email@xyz.net']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 38
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "3.\tCheck if the string contains only alphabets and spaces"
+      ],
+      "metadata": {
+        "id": "_Mkydn2kKDNs"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = \"Hello World This Is Regex\"\n",
+        "pattern = '^[\\w ]+$'\n",
+        "matches = bool(re.match(pattern, text))\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "KF8LOO_4Kb5D",
+        "outputId": "fedf670a-8f8b-499e-84cd-e90d41ed2d0d"
+      },
+      "execution_count": 39,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "True"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 39
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "4.\tExtract all words that start with a capital letter from a sentence."
+      ],
+      "metadata": {
+        "id": "aHTJV4W7L5-q"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text='''\n",
+        "Would you like me to create a custom problem similar to those\n",
+        " for practice with email validation using Python regex\n",
+        " '''\n",
+        "pattern=r'\\b[A-Z][a-zA-Z]*\\b'#b is boundary\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VX5htt8nL_Bi",
+        "outputId": "26e1d2fc-ea9c-4b8d-e9c6-079c2e53c34b"
+      },
+      "execution_count": 40,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Would', 'Python']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 40
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "5.\tReplace all vowels in a string with *."
+      ],
+      "metadata": {
+        "id": "_EujkcDROw4w"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = \"Abinaya is fun\"\n",
+        "new_text = re.sub(r'[aeiou]', '*', text,flags=re.IGNORECASE)\n",
+        "print(new_text)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "fFonFQeiOwFZ",
+        "outputId": "db592944-c168-4562-e9ac-b459d1445d46"
+      },
+      "execution_count": 41,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "*b*n*y* *s f*n\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "6.\tFind all occurrences of the word \"cat\" or \"dog\" in a sentence."
+      ],
+      "metadata": {
+        "id": "hGqgfrklPO4Q"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = \"The cat chased the dog while another cat slept beside a big Dog.\"\n",
+        "pattern=r'cat|dog'#b is boundary\n",
+        "matches = re.findall(pattern, text, flags=re.IGNORECASE)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VJwv_QORPPYA",
+        "outputId": "dbbe5cf3-23df-4d28-c6be-b78f0c1c265c"
+      },
+      "execution_count": 42,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['cat', 'dog', 'cat', 'Dog']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 42
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "7.\tSplit a sentence into words (ignore punctuation)."
+      ],
+      "metadata": {
+        "id": "I08M3QdsPp1Y"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = \"Hello, world! Let's split this sentence: into words.\"\n",
+        "pattern = '[^\\W]+'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OdKTfcqeP8Bw",
+        "outputId": "8470c352-eda1-4bac-ec05-b40b6cb8a270"
+      },
+      "execution_count": 43,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Hello', 'world', 'Let', 's', 'split', 'this', 'sentence', 'into', 'words']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 43
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "8.\tCheck if a string is a valid 10-digit phone number."
+      ],
+      "metadata": {
+        "id": "KTMlOcacQbyP"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text='My phone number is 9876543210 and office number is (123)-456-7890.'\n",
+        "pattern = r'\\d{10}|\\(\\d{3}\\)-\\d{3}-\\d{4}'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "9mE6UPMFQbTP",
+        "outputId": "6535a848-4f6e-4eca-b87e-0bce77699c99"
+      },
+      "execution_count": 44,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['9876543210', '(123)-456-7890']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 44
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "9.\tValidate a password that must contain at least 1 uppercase, 1 lowercase, 1 digit, and be at least 8 characters long."
+      ],
+      "metadata": {
+        "id": "XtEBh1nwUCxd"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import re\n",
+        "\n",
+        "text = '''MySecure9\n",
+        "ValidP4ss\n",
+        "TestCase2025\n",
+        "short1A\n",
+        "alllowercase1\n",
+        "ALLUPPERCASE1\n",
+        "NoDigitsHere\n",
+        "12345678\n",
+        "MixedCase'''\n",
+        "\n",
+        "pattern = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$',re.MULTILINE)\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "oZJyDlRbSGsp",
+        "outputId": "3a8e997d-150c-46ca-b493-acdc0e130f67"
+      },
+      "execution_count": 45,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['MySecure9', 'ValidP4ss', 'TestCase2025']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 45
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "10.\tExtract the domain name from a given email (e.g., gmail.com from user@gmail.com)."
+      ],
+      "metadata": {
+        "id": "Ql-fPTohqGOT"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text=\"Please contact john.doe@example.com, priya_kumar123@mail.in, support@company, alice@@edu.org, user.name@domain.com, and test_email@xyz.net for further assistance.\"\n",
+        "pattern = '@([a-z]+\\.+[a-z]+)'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "o1Aw1KP_qFyU",
+        "outputId": "db8f44e4-af02-4bd2-a47e-eacf38049c07"
+      },
+      "execution_count": 46,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['example.com', 'mail.in', 'edu.org', 'domain.com', 'xyz.net']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 46
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = 'Ha HaHa'\n",
+        "pattern = r'Ha'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "CLtVdoOsM7QF",
+        "outputId": "7933e3f4-b3ee-421c-b992-38fed3f0d67c"
+      },
+      "execution_count": 47,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Ha', 'Ha', 'Ha']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 47
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = 'Ha HaHa'\n",
+        "pattern = r'\\bHa'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ayJdm2oyM7e_",
+        "outputId": "8d3adac2-f2d0-4ba0-f6e6-69b397f1cc64"
+      },
+      "execution_count": 48,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Ha', 'Ha']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 48
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = 'Ha HaHa'\n",
+        "pattern = r'Ha\\b'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dAn4uq-1M7iH",
+        "outputId": "869d663b-8ab8-42e2-82b5-62bdaff9d4f8"
+      },
+      "execution_count": 49,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Ha', 'Ha']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 49
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "text = 'Ha HaHa'\n",
+        "pattern = r'\\bHa\\b'\n",
+        "matches = re.findall(pattern, text)\n",
+        "matches"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Ddtra0fKM7kl",
+        "outputId": "266f076b-6484-4bcb-ff57-e349866a40fa"
+      },
+      "execution_count": 50,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['Ha']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 50
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "sentence = \"start and end\"\n",
+        "pattern = re.compile(r'^start.*end$')\n",
+        "matches = pattern.finditer(sentence)\n",
+        "for match in matches:\n",
+        "    print(match)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ZqXuFHN0NcwU",
+        "outputId": "ebc8d7b9-6fcd-4e81-f783-784cf87d7625"
+      },
+      "execution_count": 51,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<re.Match object; span=(0, 13), match='start and end'>\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "sentence = \"start and end\"\n",
+        "pattern = re.compile(r'^start.*end$')\n",
+        "matches = pattern.findall(sentence)\n",
+        "for match in matches:\n",
+        "    print(match)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ZW0B91KnPJGC",
+        "outputId": "5760ddbe-2bd7-4fc8-b9f4-dd1e113d8a1b"
+      },
+      "execution_count": 52,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "start and end\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "nce = \"start and end\"\n",
+        "pattern = r'^start.*end$'\n",
+        "matches = re.finditer(pattern, nce)\n",
+        "for match in matches:\n",
+        "    print(match.group())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cF1dpe6bNylj",
+        "outputId": "0f77bcdb-5d11-401c-8ac2-b90aae3e4eb6"
+      },
+      "execution_count": 53,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "start and end\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "pattern = re.compile(r'\\d{3}.\\d{3}.\\d{4}')\n",
+        "with open('data.txt','r') as f:\n",
+        "    contents = f.read()\n",
+        "    matches = pattern.finditer(contents)\n",
+        "    for match in matches:\n",
+        "        print(match.group())"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "P_FZzYVrONDS",
+        "outputId": "66423ba7-3b06-4953-fdbc-a67da1cfaf8a"
+      },
+      "execution_count": 54,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "615-555-7164\n",
+            "800-555-5669\n",
+            "560-555-5153\n",
+            "900-555-9340\n",
+            "714-555-7405\n",
+            "800-555-6771\n",
+            "783-555-4799\n",
+            "516-555-4615\n",
+            "127-555-1867\n",
+            "608-555-4938\n",
+            "568-555-6051\n",
+            "292-555-1875\n",
+            "900-555-3205\n",
+            "614-555-1166\n",
+            "530-555-2676\n",
+            "470-555-2750\n",
+            "800-555-6089\n",
+            "880-555-8319\n",
+            "777-555-8378\n",
+            "998-555-7385\n",
+            "800-555-7100\n",
+            "903-555-8277\n",
+            "196-555-5674\n",
+            "900-555-5118\n",
+            "905-555-1630\n",
+            "203-555-3475\n",
+            "884-555-8444\n",
+            "904-555-8559\n",
+            "889-555-7393\n",
+            "195-555-2405\n",
+            "321-555-9053\n",
+            "133-555-1711\n",
+            "900-555-5428\n",
+            "760-555-7147\n",
+            "391-555-6621\n",
+            "932-555-7724\n",
+            "609-555-7908\n",
+            "800-555-8810\n",
+            "149-555-7657\n",
+            "130-555-9709\n",
+            "143-555-9295\n",
+            "903-555-9878\n",
+            "574-555-3194\n",
+            "496-555-7533\n",
+            "210-555-3757\n",
+            "900-555-9598\n",
+            "866-555-9844\n",
+            "669-555-7159\n",
+            "152-555-7417\n",
+            "893-555-9832\n",
+            "217-555-7123\n",
+            "786-555-6544\n",
+            "780-555-2574\n",
+            "926-555-8735\n",
+            "895-555-3539\n",
+            "874-555-3949\n",
+            "800-555-2420\n",
+            "936-555-6340\n",
+            "372-555-9809\n",
+            "890-555-5618\n",
+            "670-555-3005\n",
+            "509-555-5997\n",
+            "721-555-5632\n",
+            "900-555-3567\n",
+            "147-555-6830\n",
+            "582-555-3426\n",
+            "400-555-1706\n",
+            "525-555-1793\n",
+            "317-555-6700\n",
+            "974-555-8301\n",
+            "800-555-3216\n",
+            "746-555-4094\n",
+            "922-555-1773\n",
+            "711-555-4427\n",
+            "355-555-1872\n",
+            "852-555-6521\n",
+            "691-555-5773\n",
+            "332-555-5441\n",
+            "900-555-7755\n",
+            "379-555-3685\n",
+            "127-555-9682\n",
+            "789-555-7032\n",
+            "783-555-5135\n",
+            "315-555-6507\n",
+            "481-555-5835\n",
+            "365-555-8287\n",
+            "911-555-7535\n",
+            "681-555-2460\n",
+            "274-555-9800\n",
+            "800-555-1372\n",
+            "300-555-7821\n",
+            "133-555-3889\n",
+            "705-555-6863\n",
+            "215-555-9449\n",
+            "988-555-6112\n",
+            "623-555-3006\n",
+            "192-555-4977\n",
+            "178-555-4899\n",
+            "952-555-3089\n",
+            "900-555-6426\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "generate only the domain name"
+      ],
+      "metadata": {
+        "id": "FO-gpYPthrNA"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "urls = '''\n",
+        "https://www.google.com\n",
+        "http://coreyms.com\n",
+        "https://youtube.com\n",
+        "https://www.nasa.gov\n",
+        "'''\n",
+        "pattern = re.compile(r'https?://(www\\.)?(\\w+)(\\.\\w+)')\n",
+        "matches = re.finditer(pattern,urls)\n",
+        "for match in matches:\n",
+        "    print(match.group())"
+      ],
+      "metadata": {
+        "id": "uvJXDdM8S4sJ",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "outputId": "8efd0e31-c4cf-489c-d619-de4e2151783b"
+      },
+      "execution_count": 55,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "https://www.google.com\n",
+            "http://coreyms.com\n",
+            "https://youtube.com\n",
+            "https://www.nasa.gov\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "if you see above it generated everything in url"
+      ],
+      "metadata": {
+        "id": "airf8v4Ah-1_"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#method 1 has some errr\n",
+        "urls = '''\n",
+        "https://www.google.com\n",
+        "http://coreyms.com\n",
+        "https://youtube.com\n",
+        "https://www.nasa.gov\n",
+        "'''\n",
+        "pattern = re.compile(r'https?://(www\\.)?(\\w+)(\\.\\w+)')#>>>1st () is group1 and so on..\n",
+        "matches = re.finditer(pattern,urls)\n",
+        "for match in matches:\n",
+        "    print(match.group(2,3))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BnL2Ol4KiDci",
+        "outputId": "027cb9d1-083c-464a-dd47-1d99cbd73057"
+      },
+      "execution_count": 56,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "('google', '.com')\n",
+            "('coreyms', '.com')\n",
+            "('youtube', '.com')\n",
+            "('nasa', '.gov')\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#method 2 this is effective than method 3\n"
+      ],
+      "metadata": {
+        "id": "J5Dwx0QcifAP"
+      },
+      "execution_count": 57,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "urls = '''\n",
+        "https://www.google.com\n",
+        "http://coreyms.com\n",
+        "https://youtube.com\n",
+        "https://www.nasa.gov\n",
+        "'''\n",
+        "pattern = re.compile(r'https?://(?:www.)?(\\w+\\.\\w+)')\n",
+        "matches = re.finditer(pattern,urls)\n",
+        "for match in matches:\n",
+        "    print(match.group(1))"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "VYN4TSFzilME",
+        "outputId": "598ac712-d2e6-4b0e-cff9-bb77e8551633"
+      },
+      "execution_count": 58,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "google.com\n",
+            "coreyms.com\n",
+            "youtube.com\n",
+            "nasa.gov\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "#method 3 substitution method\n",
+        "urls = '''\n",
+        "https://www.google.com\n",
+        "http://coreyms.com\n",
+        "https://youtube.com\n",
+        "https://www.nasa.gov\n",
+        "'''\n",
+        "pattern = re.compile(r'https?://(www\\.)?(\\w+)(\\.\\w+)')#>>>1st () is group1 and so on..\n",
+        "subbed_urls = pattern.sub(r'\\2\\3',urls)\n",
+        "print(subbed_urls)\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "3hJhTN-gjLQg",
+        "outputId": "cdb0b480-849a-4884-d06a-e336b12a6dea"
+      },
+      "execution_count": 59,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "google.com\n",
+            "coreyms.com\n",
+            "youtube.com\n",
+            "nasa.gov\n",
+            "\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**MATCH METHOD**"
+      ],
+      "metadata": {
+        "id": "enigExS_pHse"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "sentence='Start a sentence and then bring it to an end'\n",
+        "pattern=re.compile(r'start',re.IGNORECASE)\n",
+        "matches=pattern.match(sentence)\n",
+        "print(matches)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4HY44v9upLM1",
+        "outputId": "d099c14a-a06b-4f7b-ed25-7c56dc1465d1"
+      },
+      "execution_count": 60,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "<re.Match object; span=(0, 5), match='Start'>\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "kernelspec": {
+      "display_name": "Python 3",
+      "language": "python",
+      "name": "python3"
+    },
+    "language_info": {
+      "codemirror_mode": {
+        "name": "ipython",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8.5"
+    },
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
